@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "../include/ghost.hpp"
 #include <vector>
 #include <iostream>
@@ -34,10 +35,22 @@ int main()
 	window.setFramerateLimit(60);
 
 	// --- Texturas ---
+
+	sf::Music musica;
+	if (!musica.openFromFile("assets/audio/waka_waka.ogg"))
+	{
+		std::cerr << "Erro ao carregar musica waka waka\n";
+		return -1;
+	}
+
+	musica.setLooping(true);
+	musica.setVolume(50.f); // opcional
+	musica.play();
+
 	sf::Texture texturaParede;
 
 	sf::Font fonte;
-	if (!fonte.openFromFile("../../assets/fonts/PressStart2P-Regular.ttf"))
+	if (!fonte.openFromFile("assets/fonts/PressStart2P-Regular.ttf"))
 	{
 		std::cerr << "Erro: Nao foi possivel carregar fonte\n";
 		return -1;
@@ -48,14 +61,14 @@ int main()
 	textoPontuacao.setFillColor(sf::Color::White);
 	textoPontuacao.setPosition({10.f, 10.f});
 
-	if (!texturaParede.loadFromFile("../../assets/sprites/parede.png"))
+	if (!texturaParede.loadFromFile("assets/sprites/parede.png"))
 	{
 		std::cerr << "Erro: Nao foi possivel carregar 'parede.png'\n";
 		return -1;
 	}
 
 	sf::Texture texturaPacman;
-	if (!texturaPacman.loadFromFile("../../assets/sprites/pacman.png"))
+	if (!texturaPacman.loadFromFile("assets/sprites/pacman.png"))
 	{
 		std::cerr << "Erro: Nao foi possivel carregar 'pacman.png'\n";
 		return -1;

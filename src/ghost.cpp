@@ -117,7 +117,7 @@ void Fantasma::desenhar(sf::RenderWindow& window, int tamanhoBloco)
 FantasmaBlinky::FantasmaBlinky(int x, int y,
                                const std::vector<std::vector<int>>& m,
                                int l, int c)
-    : Fantasma(x, y, "../../assets/sprites/alemanha.png", m, l, c) {}
+    : Fantasma(x, y, "assets/sprites/alemanha.png", m, l, c) {}
 
 sf::Vector2i FantasmaBlinky::calcularPontoAlvo(int pacX, int pacY,
                                                int pacDirX, int pacDirY,
@@ -133,7 +133,7 @@ sf::Vector2i FantasmaBlinky::calcularPontoAlvo(int pacX, int pacY,
 FantasmaPinky::FantasmaPinky(int x, int y,
                              const std::vector<std::vector<int>>& m,
                              int l, int c)
-    : Fantasma(x, y, "../../assets/sprites/argentina.png", m, l, c) {}
+    : Fantasma(x, y, "assets/sprites/argentina.png", m, l, c) {}
 
 sf::Vector2i FantasmaPinky::calcularPontoAlvo(int pacX, int pacY,
                                               int pacDirX, int pacDirY,
@@ -149,7 +149,7 @@ sf::Vector2i FantasmaPinky::calcularPontoAlvo(int pacX, int pacY,
 FantasmaInky::FantasmaInky(int x, int y,
                            const std::vector<std::vector<int>>& m,
                            int l, int c)
-    : Fantasma(x, y, "../../assets/sprites/franca.png", m, l, c) {}
+    : Fantasma(x, y, "assets/sprites/franca.png", m, l, c) {}
 
 sf::Vector2i FantasmaInky::calcularPontoAlvo(int pacX, int pacY,
                                              int pacDirX, int pacDirY,
@@ -169,7 +169,7 @@ sf::Vector2i FantasmaInky::calcularPontoAlvo(int pacX, int pacY,
 FantasmaClyde::FantasmaClyde(int x, int y,
                              const std::vector<std::vector<int>>& m,
                              int l, int c)
-    : Fantasma(x, y, "../../assets/sprites/portugal.png", m, l, c) {}
+    : Fantasma(x, y, "assets/sprites/portugal.png", m, l, c) {}
 
 sf::Vector2i FantasmaClyde::calcularPontoAlvo(int pacX, int pacY,
                                               int pacDirX, int pacDirY,
