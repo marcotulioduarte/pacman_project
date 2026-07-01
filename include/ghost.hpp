@@ -33,7 +33,7 @@ public:
     void mover(int pacX, int pacY, int pacDirX, int pacDirY,
                int blinkyX, int blinkyY);
 
-    void desenhar(sf::RenderWindow& window, int tamanhoBloco);
+    void desenhar(sf::RenderWindow &window, int tamanhoBloco, float hudHeight);
 
     virtual ~Fantasma() = default;
 };

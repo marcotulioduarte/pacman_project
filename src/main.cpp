@@ -18,16 +18,16 @@ struct Bolinha
 
 int main()
 {
-	int pontuacao = 0;
+	int pontuacao = -10;
 
 	// Configurações do Grid
 	const int TAMANHO_BLOCO = 40;
+	const float HUD_HEIGHT = 60.f;
 	const int COLUNAS = 20;
 	const int LINHAS = 15;
 
 	const float LARGURA_TELA = static_cast<float>(COLUNAS * TAMANHO_BLOCO);
-	const float ALTURA_TELA = static_cast<float>(LINHAS * TAMANHO_BLOCO);
-
+	const float ALTURA_TELA = static_cast<float>(LINHAS * TAMANHO_BLOCO + HUD_HEIGHT);
 	sf::RenderWindow window(
 		sf::VideoMode({static_cast<unsigned int>(LARGURA_TELA),
 					   static_cast<unsigned int>(ALTURA_TELA)}),
@@ -59,7 +59,7 @@ int main()
 	sf::Text textoPontuacao(fonte);
 	textoPontuacao.setCharacterSize(20);
 	textoPontuacao.setFillColor(sf::Color::White);
-	textoPontuacao.setPosition({10.f, 10.f});
+	textoPontuacao.setPosition({10.f, 15.f});
 
 	if (!texturaParede.loadFromFile("assets/sprites/parede.png"))
 	{
@@ -113,7 +113,7 @@ int main()
 				b.formato.setRadius(RAIO_BOLINHA);
 				b.formato.setFillColor(sf::Color(255, 184, 151));
 				float posX = (j * TAMANHO_BLOCO) + (TAMANHO_BLOCO / 2.0f) - RAIO_BOLINHA;
-				float posY = (i * TAMANHO_BLOCO) + (TAMANHO_BLOCO / 2.0f) - RAIO_BOLINHA;
+				float posY = (i * TAMANHO_BLOCO + HUD_HEIGHT) + (TAMANHO_BLOCO / 2.0f) - RAIO_BOLINHA;
 				b.formato.setPosition({posX, posY});
 				listaBolinhas.push_back(b);
 			}
@@ -125,6 +125,10 @@ int main()
 	bloco.setOutlineThickness(-1.0f);
 	bloco.setOutlineColor(sf::Color(20, 20, 20));
 
+	sf::RectangleShape hudBar;
+	hudBar.setSize(sf::Vector2f(LARGURA_TELA, HUD_HEIGHT));
+	hudBar.setPosition(sf::Vector2f(0.f, 0.f));
+	hudBar.setFillColor(sf::Color::Black);
 	// --- Fantasmas ---
 	FantasmaBlinky fantasma1(9, 7, mapa, LINHAS, COLUNAS);
 	FantasmaPinky fantasma2(10, 7, mapa, LINHAS, COLUNAS);
@@ -138,8 +142,8 @@ int main()
 	const int PAC_Y_INICIAL = 13;
 	int posx = PAC_X_INICIAL;
 	int posy = PAC_Y_INICIAL;
-	spritePacman.setPosition({static_cast<float>(posx * TAMANHO_BLOCO),
-							  static_cast<float>(posy * TAMANHO_BLOCO)});
+	spritePacman.setPosition({posx * TAMANHO_BLOCO,
+							  posy * TAMANHO_BLOCO + HUD_HEIGHT});
 
 	// Direção persistente (como boniexclyde.cpp): tecla define direção até bater na parede
 	bool cima = false;
@@ -267,8 +271,8 @@ int main()
 					dir = false;
 			}
 
-			spritePacman.setPosition({static_cast<float>(posx * TAMANHO_BLOCO),
-									  static_cast<float>(posy * TAMANHO_BLOCO)});
+			spritePacman.setPosition({posx * TAMANHO_BLOCO,
+									  posy * TAMANHO_BLOCO + HUD_HEIGHT});
 		}
 
 		// --- Bolinhas: coleta pela célula do Pac-Man ---
@@ -324,8 +328,8 @@ int main()
 			// Reseta Pac-Man
 			posx = PAC_X_INICIAL;
 			posy = PAC_Y_INICIAL;
-			spritePacman.setPosition({static_cast<float>(posx * TAMANHO_BLOCO),
-									  static_cast<float>(posy * TAMANHO_BLOCO)});
+			spritePacman.setPosition({posx * TAMANHO_BLOCO,
+									  posy * TAMANHO_BLOCO + HUD_HEIGHT});
 			cima = baixo = esq = dir = false;
 			pacDirX = 0;
 			pacDirY = 0;
@@ -368,7 +372,7 @@ int main()
 			for (int j = 0; j < COLUNAS; ++j)
 			{
 				bloco.setPosition({static_cast<float>(j * TAMANHO_BLOCO),
-								   static_cast<float>(i * TAMANHO_BLOCO)});
+								   static_cast<float>(i * TAMANHO_BLOCO) + HUD_HEIGHT});
 				if (mapa[i][j] == 1)
 				{
 					bloco.setTexture(&texturaParede);
@@ -391,14 +395,19 @@ int main()
 		}
 
 		// Fantasmas (abaixo do Pac-Man)
-		fantasma1.desenhar(window, TAMANHO_BLOCO);
-		fantasma2.desenhar(window, TAMANHO_BLOCO);
-		fantasma3.desenhar(window, TAMANHO_BLOCO);
-		fantasma4.desenhar(window, TAMANHO_BLOCO);
+
+		fantasma1.desenhar(window, TAMANHO_BLOCO, HUD_HEIGHT);
+		fantasma2.desenhar(window, TAMANHO_BLOCO, HUD_HEIGHT);
+		fantasma3.desenhar(window, TAMANHO_BLOCO, HUD_HEIGHT);
+		fantasma4.desenhar(window, TAMANHO_BLOCO, HUD_HEIGHT);
 
 		// Pac-Man por cima de tudo
 		window.draw(spritePacman);
 
+		// HUD
+		window.draw(hudBar);
+
+		// Atualiza texto do score
 		textoPontuacao.setString("Score: " + std::to_string(pontuacao));
 		window.draw(textoPontuacao);
 
