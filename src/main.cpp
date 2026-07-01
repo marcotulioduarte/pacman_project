@@ -17,6 +17,8 @@ struct Bolinha
 
 int main()
 {
+	int pontuacao = 0;
+
 	// Configurações do Grid
 	const int TAMANHO_BLOCO = 40;
 	const int COLUNAS = 20;
@@ -33,6 +35,19 @@ int main()
 
 	// --- Texturas ---
 	sf::Texture texturaParede;
+
+	sf::Font fonte;
+	if (!fonte.openFromFile("../../assets/fonts/PressStart2P-Regular.ttf"))
+	{
+		std::cerr << "Erro: Nao foi possivel carregar fonte\n";
+		return -1;
+	}
+
+	sf::Text textoPontuacao(fonte);
+	textoPontuacao.setCharacterSize(20);
+	textoPontuacao.setFillColor(sf::Color::White);
+	textoPontuacao.setPosition({10.f, 10.f});
+
 	if (!texturaParede.loadFromFile("../../assets/sprites/parede.png"))
 	{
 		std::cerr << "Erro: Nao foi possivel carregar 'parede.png'\n";
@@ -45,8 +60,6 @@ int main()
 		std::cerr << "Erro: Nao foi possivel carregar 'pacman.png'\n";
 		return -1;
 	}
-
-	
 
 	sf::Sprite spritePacman(texturaPacman);
 
@@ -266,12 +279,13 @@ int main()
 				if (houveColisao)
 				{
 					b.ativa = false;
+					pontuacao += 10;
 				}
 			}
 		}
 
 		// movimento dos fantasmas
-		
+
 		if (clockFantasmas.getElapsedTime() > sf::seconds(0.3f))
 		{
 			clockFantasmas.restart();
@@ -302,6 +316,14 @@ int main()
 			cima = baixo = esq = dir = false;
 			pacDirX = 0;
 			pacDirY = 0;
+
+			pontuacao = 0;
+			textoPontuacao.setString("Score: 0");
+
+			for (auto &b : listaBolinhas)
+			{
+				b.ativa = true;
+			}
 
 			// Reseta fantasmas
 			fantasma1.posx = 9;
@@ -363,6 +385,10 @@ int main()
 
 		// Pac-Man por cima de tudo
 		window.draw(spritePacman);
+
+		textoPontuacao.setString("Score: " + std::to_string(pontuacao));
+		window.draw(textoPontuacao);
+
 		window.display();
 	}
 
