@@ -275,30 +275,39 @@ int main()
 									  posy * TAMANHO_BLOCO + HUD_HEIGHT});
 		}
 
-		// --- Bolinhas: coleta pela célula do Pac-Man ---
-		auto tempoAtual = std::chrono::steady_clock::now();
-
+		// coleta bolinha
+		// coleta bolinha
 		for (auto &b : listaBolinhas)
+		{
+			if (!b.ativa)
+				continue;
+
+			int bolinhaX = static_cast<int>((b.formato.getPosition().x + RAIO_BOLINHA) / TAMANHO_BLOCO);
+			int bolinhaY = static_cast<int>((b.formato.getPosition().y - HUD_HEIGHT + RAIO_BOLINHA) / TAMANHO_BLOCO);
+
+			if (bolinhaX == posx && bolinhaY == posy)
+			{
+				b.ativa = false;
+				pontuacao += 10;
+			}
+		}
+
+		// Verifica se todas as bolinhas foram comidas
+		bool venceu = true;
+
+		for (const auto &b : listaBolinhas)
 		{
 			if (b.ativa)
 			{
-				float celulaPixelX = static_cast<float>(posx * TAMANHO_BLOCO);
-				float celulaPixelY = static_cast<float>(posy * TAMANHO_BLOCO);
-
-				sf::FloatRect boundsBolinha = b.formato.getGlobalBounds();
-
-				bool houveColisao =
-					(celulaPixelX < boundsBolinha.position.x + boundsBolinha.size.x &&
-					 celulaPixelX + TAMANHO_BLOCO > boundsBolinha.position.x &&
-					 celulaPixelY < boundsBolinha.position.y + boundsBolinha.size.y &&
-					 celulaPixelY + TAMANHO_BLOCO > boundsBolinha.position.y);
-
-				if (houveColisao)
-				{
-					b.ativa = false;
-					pontuacao += 10;
-				}
+				venceu = false;
+				break;
 			}
+		}
+
+		if (venceu)
+		{
+			std::cout << "VOCE VENCEU!\n";
+			window.close(); // fecha o jogo
 		}
 
 		// movimento dos fantasmas
