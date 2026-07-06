@@ -129,9 +129,7 @@ void Fantasma::mover(int pacX, int pacY, int pacDirX, int pacDirY,
     window.draw(sprite);
 }
 
-// ==========================================
-// BLINKY
-// ==========================================
+// fantasma Alemanha
 
 FantasmaBlinky::FantasmaBlinky(int x, int y,
                                const std::vector<std::vector<int>> &m,
@@ -145,9 +143,7 @@ sf::Vector2i FantasmaBlinky::calcularPontoAlvo(int pacX, int pacY,
     return {pacX, pacY};
 }
 
-// ==========================================
-// PINKY
-// ==========================================
+//fantasma Argentina
 
 FantasmaPinky::FantasmaPinky(int x, int y,
                              const std::vector<std::vector<int>> &m,
@@ -161,9 +157,7 @@ sf::Vector2i FantasmaPinky::calcularPontoAlvo(int pacX, int pacY,
     return {pacX + (pacDirX * 4), pacY + (pacDirY * 4)};
 }
 
-// ==========================================
-// INKY
-// ==========================================
+//fantasma França
 
 FantasmaInky::FantasmaInky(int x, int y,
                            const std::vector<std::vector<int>> &m,
@@ -181,9 +175,7 @@ sf::Vector2i FantasmaInky::calcularPontoAlvo(int pacX, int pacY,
             pivotY + (pivotY - blinkyY)};
 }
 
-// ==========================================
-// CLYDE
-// ==========================================
+//fantasma Portugal
 
 FantasmaClyde::FantasmaClyde(int x, int y,
                              const std::vector<std::vector<int>> &m,
